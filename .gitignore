@@ -1,0 +1,44 @@
+# ---- macOS ----
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+
+# ---- Python ----
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+pip-wheel-metadata/
+
+# virtual environment
+venv/
+env/
+.venv/
+ENV/
+
+# pytest
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# ---- VSCode ----
+.vscode/
+.history/
+
+# ---- logs ----
+*.log
+
+# ---- other ----
+*.swp
