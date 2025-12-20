@@ -1,4 +1,5 @@
-import tkinter
+from tkmacosx import Button as Mac_button
+import tkinter as tk
 
 button_values = [
     ['AC', '+/-', '%', '÷'],
@@ -21,12 +22,12 @@ color_white = "white"
 color_dark_gray = "#505050"
 
 #window steup
-window = tkinter.Tk() #create the main window
+window = tk.Tk() #create the main window
 window.title("Calculator")
 window.resizable(False, False) #disable resizing the window
 
-frame = tkinter.Frame(window)
-label = tkinter.Label(frame, text = "0", font = ("Arial", 45),
+frame = tk.Frame(window)
+label = tk.Label(frame, text = "0", font = ("Arial", 45),
                       bg = color_black, fg = color_white,
                       anchor = "e",
                       width=column_count) #anchor = "e" short for "east"means align to the right
@@ -35,8 +36,10 @@ label.grid(row=0,column=0, columnspan=column_count, sticky="we") #span all colum
 for row in range(row_count):
     for column in range(column_count):
         value = button_values[row][column]
-        button = tkinter.Button(frame, text=value, font=("Arial", 30),
-                                width=column_count-1, height=1,command =lambda value= value: button_click(value),
+        BTN_W = 70
+        BTN_H = 60
+        button = Mac_button(frame, text=value, font=("Arial", 30),
+                                width=BTN_W, height=BTN_H,command =lambda value= value: button_click(value),
                                 relief="flat",        
                                 bd=0,                
                                 highlightthickness=0)
