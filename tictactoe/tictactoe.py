@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkmacosx import Button as Mac_button
 
 def set_tile(row, col):
     global current_player
@@ -26,7 +27,7 @@ def check_winner():
         if (board[row][0]["text"] == board[row][1]["text"] == board[row][2]["text"] != ""):
             label.config(text=board[row][0]["text"]+" wins!", fg=color_yellow)
             for col in range(3):
-                board[row][col].config(bg=color_yellow, fg=color_light_gray)
+                board[row][col].config(bg=color_light_gray, fg=color_yellow)
             game_over = True
             return
     #vertical check
@@ -34,26 +35,38 @@ def check_winner():
         if (board[0][col]["text"] == board[1][col]["text"] == board[2][col]["text"] != ""):
             label.config(text=board[0][col]["text"]+" wins!", fg=color_yellow)
             for row in range(3):
-                board[row][col].config(bg=color_yellow, fg=color_light_gray)
+                board[row][col].config(bg=color_light_gray, fg=color_yellow)
             game_over = True
             return
     #diagonal check
     if (board[0][0]["text"] == board[1][1]["text"] == board[2][2]["text"] != ""):
         label.config(text=board[0][0]["text"]+" wins!", fg=color_yellow)
         for i in range(3):
-            board[i][i].config(bg=color_yellow, fg=color_light_gray)
+            board[i][i].config(bg=color_light_gray, fg=color_yellow)
         game_over = True
         return
     #anti-diagonal check
     if (board[0][2]["text"] == board[1][1]["text"] == board[2][0]["text"] != ""):
         label.config(text=board[0][2]["text"]+" wins!", fg=color_yellow)
         for i in range(3):
-            board[i][2-i].config(bg=color_yellow, fg=color_light_gray)
+            board[i][2-i].config(bg=color_light_gray, fg=color_yellow)
         game_over = True
         return
+    #check for tie
+    if turns == 9:
+        game_over = True
+        label.config(text="It's a tie!", fg=color_yellow)
 
 def new_game():
-    pass
+    global current_player, game_over, turns
+    turns = 0
+    game_over = False
+    label.config(text="current player: " + current_player, fg="white")
+    
+    for row in range(3):
+        for col in range(3):
+            board[row][col]["text"] = ""
+            board[row][col].config(bg=color_gray, fg=color_blue)
 
 #game setup
 playerX = "X"
@@ -82,15 +95,18 @@ label = tk.Label(frame, text="current player: " + current_player, font=("Consola
 
 label.grid(row=0, column=0,columnspan=3,sticky="we")
 
+BTN_W = 170
+BTN_H = 160
+
 for row in range(3):
     for col in range(3):
-        board[row][col] = tk.Button(frame, text="",font=("Consolas", 50, "bold"), 
+        board[row][col] = Mac_button(frame, text="",font=("Consolas", 50, "bold"), 
                                     bg=color_gray,fg=color_blue,
-                                    width=4, height=1,
+                                    width=BTN_W, height=BTN_H,
                                     command=lambda r=row, c=col: set_tile(r, c))
         board[row][col].grid(row=row+1, column=col)
 
-button = tk.Button(frame, text="Reset Game", font=("Consolas", 20),
+button = Mac_button(frame, text="Reset Game", font=("Consolas", 20),
                    bg=color_gray, fg="white",
                    command=new_game)
 button.grid(row=4, column=0,columnspan=3,sticky="we")
