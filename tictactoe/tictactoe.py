@@ -1,8 +1,56 @@
 import tkinter as tk
 
 def set_tile(row, col):
+    global current_player
+    if game_over:
+        return #game is over, do nothing
+    if board[row][col]["text"] != "":
+        return #tile already taken
     
-    pass
+    board[row][col]["text"] = current_player   #set the tile to the current player's symbol
+    if current_player == playerO:
+        current_player = playerX
+    else:
+        current_player = playerO
+        
+    label["text"] = "current player: " + current_player
+    check_winner()
+    
+
+def check_winner():
+    global game_over, turns
+    turns += 1
+    
+    #horizontal check
+    for row in range(3):
+        if (board[row][0]["text"] == board[row][1]["text"] == board[row][2]["text"] != ""):
+            label.config(text=board[row][0]["text"]+" wins!", fg=color_yellow)
+            for col in range(3):
+                board[row][col].config(bg=color_yellow, fg=color_light_gray)
+            game_over = True
+            return
+    #vertical check
+    for col in range(3):
+        if (board[0][col]["text"] == board[1][col]["text"] == board[2][col]["text"] != ""):
+            label.config(text=board[0][col]["text"]+" wins!", fg=color_yellow)
+            for row in range(3):
+                board[row][col].config(bg=color_yellow, fg=color_light_gray)
+            game_over = True
+            return
+    #diagonal check
+    if (board[0][0]["text"] == board[1][1]["text"] == board[2][2]["text"] != ""):
+        label.config(text=board[0][0]["text"]+" wins!", fg=color_yellow)
+        for i in range(3):
+            board[i][i].config(bg=color_yellow, fg=color_light_gray)
+        game_over = True
+        return
+    #anti-diagonal check
+    if (board[0][2]["text"] == board[1][1]["text"] == board[2][0]["text"] != ""):
+        label.config(text=board[0][2]["text"]+" wins!", fg=color_yellow)
+        for i in range(3):
+            board[i][2-i].config(bg=color_yellow, fg=color_light_gray)
+        game_over = True
+        return
 
 def new_game():
     pass
@@ -19,6 +67,8 @@ color_blue = "#3b83bd"
 color_yellow = "#ffde57"
 color_gray = "#343434"
 color_light_gray = "#646464"
+turns = 0
+game_over = False
 
 #window setup
 window = tk.Tk()
